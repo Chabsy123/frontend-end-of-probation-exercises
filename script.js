@@ -23,4 +23,35 @@ function showProducts(productsToShow) {
         </div>
         `
     });
+
 }
+
+function addToCart(productId){
+    const product = products.find(p => p.id === productId);
+    cart.push(product);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    pulseCart();
+}
+
+//Update cart count
+function updateCartCount(){
+    document.querySelector('.cart-count').textContent = cart.length;
+}
+
+//Cart icon animation
+function pulseCart(){
+    const icon = document.querySelector('.cart-icon');
+    icon.style.transform = 'scale(1.1)';
+    setTimeout(() => icon.style.transform = 'scale(1)', 300);
+
+}
+
+//Search for Products
+document.querySelector('.search-form input').addEventListener('input',(e) => {
+    const term = e.target.value.toLowerCase();
+    const filtered = products.filter(p => p.title.toLowerCase().includes(term));
+    showProducts(filtered);
+
+});
+
