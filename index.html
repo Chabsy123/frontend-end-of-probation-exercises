@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body style="background-color: rgba(9, 213, 108, 0.306); font-size: 18px;">
+    <!-- Header -->
+    <header>
+        <h1>Online Store</h1>
+        <a href="#" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">0</span>
+        </a>
+    </header>
+
+    <!-- Search Form -->
+    <div class="search-container">
+        <form class="search-form">
+            <input type="text" placeholder="Search products...">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Filters</h2>
+            
+            <div class="filter-section">
+                <h3>Categories</h3>
+                <ul class="categories">
+                    <li><input type="checkbox" id="cat1"> <label for="cat1">Electronics</label></li>
+                    <li><input type="checkbox" id="cat2"> <label for="cat2">Clothing</label></li>
+                    <li><input type="checkbox" id="cat3"> <label for="cat3">Home</label></li>
+                </ul>
+            </div>
+
+            <div class="filter-section">
+                <h3>Price Range</h3>
+                <input type="range" min="0" max="1000" step="50" placeholder="Enter the Price">
+                <div class="price-range-values">
+                    <span>$0</span>
+                    <span>$1000</span>
+                </div>
+            </div>
+
+            <div class="sort-section">
+                <h3>Sort By</h3>
+                <select>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name-asc">Name: A-Z</option>
+                    <option value="name-desc">Name: Z-A</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- Product Listings -->
+        <main class="product-grid">
+            <!-- Product Card 1 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150" alt="Product Image">
+                <h3>Product Title 1</h3>
+                <p class="price">$19.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150" alt="Product Image">
+                <h3>Product Title 2</h3>
+                <p class="price">$29.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+
+            <!-- Product Card 3 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150" alt="Product Image">
+                <h3>Product Title 3</h3>
+                <p class="price">$39.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Online Store. All rights reserved.</p>
+        <nav>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+        </nav>
+    </footer>
+</body>
+</html>
