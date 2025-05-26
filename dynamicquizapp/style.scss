@@ -1,0 +1,54 @@
+$primary-color: #1357ea;
+$secondary-color: #4607f1;
+$correct-color:rgb(13, 253, 9);
+$incorrect-color:rgb(223, 26, 26);
+$text-color: black;
+$bg-color:#c1cbd6;
+$card-bg:#fff;
+
+$spacing:1rem;
+$font-normal:1rem;
+$font-lg:1.25rem;
+$font-xl:1.5rem;
+$font-xxl:2rem;
+
+$border-radius:0.5rem;
+$box-shadow:0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1.5px rgba(0,0,0,0.09);
+
+// mixin time
+@mixin button-style($bg-color, $text-color:white){
+    background-color: $bg-color;
+    color: $text-color;
+    border: none;
+    padding: $spacing ;
+    border-radius: $border-radius;
+    font-weight: 400;
+    transition: all 0.2 ease;
+
+    &:hover:not(:disabled){
+        background-color: $bg-color;
+        transform: translateY(-1px);
+    }
+    &:active:not(:disabled){
+        transform: translateY(0);
+    }
+    &:focus{
+        outline: 3px solid rgba(0,0,0,0.09);
+        
+    }
+    &:disabled{
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+@mixin alerted($bg-color, $text-color){
+    background-color: rgba($bg-color, 0.1);
+    color: $text-color;
+    border-left: 4px solid $bg-color;
+    padding: $spacing;
+    margin-bottom: $spacing;
+    border-radius: 0 $border-radius $border-radius 0;
+}
+
+//Main styling
