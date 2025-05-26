@@ -52,3 +52,201 @@ $box-shadow:0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1.5px rgba(0,0,0,0.09);
 }
 
 //Main styling
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: $bg-color;
+    color:$text-color;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.container{
+    display: grid;
+    grid-template-areas: "header"
+    "main"
+    "footer";
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    padding: $spacing * 2;
+    gap: $spacing * 3;
+}
+
+header{
+    grid-area: header;
+    text-align: center;
+}
+
+main{
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+}
+
+footer{
+    grid-area: footer;
+    text-align: center;
+    padding:$spacing * 2 ;
+}
+
+//Quiz Flexbox
+#quiz-container{
+    background-color: $card-bg;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    padding: $spacing *3;
+    margin-bottom: $spacing *3;
+    transition: 0.3s ease;
+
+    &:hover{
+        transform: translateY(-2px);
+    }
+}
+
+//Layout for Questions and Options
+#question{
+    font-size: $font-xl;
+    margin-bottom: $spacing * 2;
+    color: $text-color;
+    font-weight: 600;
+}
+
+#options{
+    display: flex;
+    flex-direction: column;
+    gap:$spacing;
+}
+
+//Interactive elements
+.btn{
+    @include button-style($primary-color);
+
+    &-secondary{
+        @include button-style($secondary-color);
+    }
+    &-success{
+        @include button-style($correct-color);
+    }
+    &-danger{
+        @include button-style($incorrect-color);
+    }
+}
+
+//Answer options
+.list-group-item{
+    cursor: pointer;
+    padding:  $spacing *1.5;
+    border: 1px solid #e5e7eb;
+    border-radius: $border-radius;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-size:$font-lg ;
+
+    &:hover{
+        background-color: rgba($primary-color, 0.05);
+        border-color: $primary-color;
+    }
+    &.selected{
+        background-color: rgba($primary-color, 0.1);
+        border-color: $primary-color;
+        font-weight: 400;
+    }
+    &.correct{
+        @include alerted($correct-color,darken($correct-color, 20%));
+        animation: fade 0.3s ease;
+    }
+    &.incorrect{
+        @include alerted($correct-color,darken($incorrect-color, 20%));
+        animation: fade 0.3s ease;
+    }
+    &:focus{
+        outline:3px solid rgba($primary-color, 0.3);
+        outline-offset: 2px;
+    }
+}
+
+//Navigation buttons
+.navigation-buttons{
+    display: flex;
+    justify-content: space-between;
+    gap: $spacing;
+    margin-top: $spacing * 2;
+
+}
+
+//progress bar
+.progress{
+    height: $spacing;
+    border-radius: $border-radius;
+    background-color: #e5e7eb;
+    margin: $spacing * 2.0;
+}
+
+//result section
+#results-section{
+    background-color: $card-bg;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    padding: $spacing * 3;
+    animation: slideIn 0.5 ease;
+}
+
+h2{
+    color: $primary-color;
+    margin-bottom:$spacing * 2 ;
+}
+
+.result-item{
+    padding: $spacing;
+    margin-bottom: $spacing;
+    border-radius: $border-radius;
+
+    &.correct{
+        @include alerted($correct-color,darken($correct-color, 20%));
+        =
+    }
+    &.incorrect{
+        @include alerted($correct-color,darken($incorrect-color, 20%));
+        
+    }
+    h5{
+        font-weight: 600;
+        margin-bottom: $spacing ;
+    }
+}
+
+//Animations
+@keyframes fadeIn{
+    from{ opacity: 0;}
+    to{
+        opacity: 1;
+    }
+}
+@keyframes slideIn{
+    from{ 
+        opacity: 0;
+     transform: translateY(20px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+}
+.question-transition{
+    animation: flipQuestion 0.6s ease;
+}
+
+@keyframes flipQuestion{
+    0%{transform: rotateY(0);}
+    50%{transform: rotateY(90deg);}
+    100%{transform: rotateY(0);}
+}
+
+//accessibility for keyboard nav
+:focus-visible{
+    outline: 3px solid rgba($primary-color, 0.5);
+    outline-offset:2px ;
+}
+
