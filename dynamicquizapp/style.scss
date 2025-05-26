@@ -118,6 +118,38 @@ footer{
     gap:$spacing;
 }
 
+.option-btn{
+    display: block;
+    margin:5px;
+    padding:10px;
+    border:1px solid #ddd;
+    cursor: pointer;
+}
+
+.option-btn.selected{
+    background-color: #4607f1;
+}
+
+.option-btn.correct{
+    background-color: aqua;
+}
+.option-btn.incorrect{
+    background-color: red;
+}
+
+.progress{
+    height: 20px;
+    background: #eee;
+    margin:10px 0;
+}
+
+.progress-bar{
+    height: 100%;
+    background: #4607f1;
+    width: 0%;
+    transition: width 0.3s;
+}
+
 //Interactive elements
 .btn{
     @include button-style($primary-color);
@@ -204,7 +236,7 @@ h2{
 
     &.correct{
         @include alerted($correct-color,darken($correct-color, 20%));
-        =
+        
     }
     &.incorrect{
         @include alerted($correct-color,darken($incorrect-color, 20%));
@@ -250,3 +282,27 @@ h2{
     outline-offset:2px ;
 }
 
+//responsive design
+@media(max-width:768px){
+    .container{
+        padding: $spacing;
+        gap: $spacing * 2;
+    }
+
+    #quiz-container{
+        padding: $spacing* 2;
+    }
+    #question{
+        font-size: $font-lg;
+    }
+    .list-group-item{
+        padding: $spacing;
+        font-size: $font-normal;
+    }
+    .navigation-buttons{
+        flex-direction: column;
+    }
+    .btn{
+        width: 100%;
+    }
+}
