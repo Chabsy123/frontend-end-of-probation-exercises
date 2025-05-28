@@ -1,118 +1,167 @@
-//Quiz Data and Init
-class Question{
-    constructor(text, options, answer){
-        this.text = text;
-        this.options = options;
-        this.answer = answer;
-
+// Quiz Questions
+const quizQuestions = [
+    {
+        question: "What is 2+2?",
+        options: ["3", "4", "5"],
+        correctAnswer: "4"
+    },
+    {
+        question: "Capital of France?",
+        options: ["London", "Paris", "Berlin"],
+        correctAnswer: "Paris"
+    },
+    {
+        question: "What is the largest mammal?",
+        options: ["Elephant", "Blue Whale", "Giraffe"],
+        correctAnswer: "Blue Whale"
     }
-}
-
-class Quiz{
-    constructor(questions){
-        this.questions = questions.map(q =>new Question(q.question, q.options, q.correctAnswer));
-        this.currentIndex= 0;
-        this.score=0;
-        this.answers = new Array(questions.length).fill(null)  
-      }
-}
-
-const quizData = [
-    {question: "What is 6+34*2", options: ["32","74","544"], correctAnswer: "74"},
-    {question: "Capital of US of A", options: ["Texas","Michigan","DC"], correctAnswer: "DC"},
-    
 ];
 
-const quiz = new Quiz(quizData);
+// DOM Elements
+const quizContainer = document.getElementById('quiz-container');
+const questionElement = document.getElementById('question');
+const optionsElement = document.getElementById('options');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const progressBar = document.getElementById('progress-bar');
+const resultsSection = document.getElementById('results-section');
+const resultsElement = document.getElementById('results');
+const restartBtn = document.getElementById('restart-btn');
 
-//Dynamic question display
-function renderQuestion(){
-    const question = quiz.questions[quiz.currentIndex];
-    document.getElementById('question').textContent = question.text;
+// Quiz State
+let currentQuestionIndex = 0;
+let score = 0;
+let userAnswers = new Array(quizQuestions.length).fill(null);
 
-    const optionsContainer = document.getElementById("options");
-    optionsContainer.innerHTML='';
+// Initialize the quiz
+function initQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    userAnswers = new Array(quizQuestions.length).fill(null);
+    showQuestion();
+    updateProgressBar();
+    updateNavigationButtons();
+    quizContainer.style.display = 'block';
+    prevBtn.style.display = 'block';
+    nextBtn.style.display = 'block';
+    resultsSection.style.display = 'none';
+}
 
-    question.options.forEach(option => {
-        const btn =document.createElement('button');
-        btn.className = 'option-btn';
-        btn.textContent = option;
-        btn.onclick = () => selectAnswer(option);
-        if(quiz.answers[quiz.currentIndex] === option) btn.classList.add('selected');
-        optionsContainer.appendChild(btn);
+// Display the current question
+function showQuestion() {
+    const currentQuestion = quizQuestions[currentQuestionIndex];
+    questionElement.textContent = currentQuestion.question;
+    
+    optionsElement.innerHTML = '';
+    currentQuestion.options.forEach(option => {
+        const optionElement = document.createElement('button');
+        optionElement.className = 'list-group-item list-group-item-action';
+        optionElement.textContent = option;
+        
+        // Highlight selected answer if exists
+        if (userAnswers[currentQuestionIndex] === option) {
+            optionElement.classList.add('selected');
+        }
+        
+        optionElement.addEventListener('click', () => selectAnswer(option));
+        optionsElement.appendChild(optionElement);
     });
 }
 
-//Navigation and progress
-function updateProgress(){
-    const progress =((quiz.currentIndex + 1) / quiz.questions.length) * 100;
-    document.getElementById('progress-bar').style.width = `$(progress)%`;
+// Handle answer selection
+function selectAnswer(selectedOption) {
+    const currentQuestion = quizQuestions[currentQuestionIndex];
+    userAnswers[currentQuestionIndex] = selectedOption;
+    
+    // Update visual feedback
+    const options = document.querySelectorAll('.list-group-item');
+    options.forEach(option => {
+        option.classList.remove('selected', 'correct', 'incorrect');
+        
+        if (option.textContent === selectedOption) {
+            option.classList.add('selected');
+        }
+        if (option.textContent === currentQuestion.correctAnswer) {
+            option.classList.add('correct');
+        } else if (option.textContent === selectedOption && selectedOption !== currentQuestion.correctAnswer) {
+            option.classList.add('incorrect');
+        }
+    });
+    
+    // Recalculate score
+    score = userAnswers.reduce((total, answer, index) => {
+        return total + (answer === quizQuestions[index].correctAnswer ? 1 : 0);
+    }, 0);
 }
 
-document.getElementById('next-btn').addEventListener('click', () => {
-    if(quiz.currentIndex < quiz.questions.length -1 ){
-        quiz.currentIndex++;
-        renderQuestion();
-        updateProgress();
-    }else{
+// Update progress bar
+function updateProgressBar() {
+    const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
+    progressBar.style.width = `${progress}%`;
+    progressBar.textContent = `${currentQuestionIndex + 1}/${quizQuestions.length}`;
+}
+
+// Update navigation buttons state
+function updateNavigationButtons() {
+    prevBtn.disabled = currentQuestionIndex === 0;
+    
+    if (currentQuestionIndex === quizQuestions.length - 1) {
+        nextBtn.textContent = 'Submit Quiz';
+    } else {
+        nextBtn.textContent = 'Next Question';
+    }
+}
+
+// Show quiz results
+function showResults() {
+    const name = prompt("Enter your name (2-20 alphanumeric characters):");
+    if (!name || !/^[a-zA-Z0-9]{2,20}$/.test(name)) {
+        alert("Invalid name! Please enter 2-20 alphanumeric characters.");
+        return;
+    }
+
+    quizContainer.style.display = 'none';
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    resultsSection.style.display = 'block';
+    
+    const result = {
+        name,
+        score,
+        total: quizQuestions.length,
+        date: new Date().toLocaleString()
+    };
+    
+    localStorage.setItem('quizResult', JSON.stringify(result));
+    
+    resultsElement.innerHTML = `
+        <h3>${name}'s Score: ${score}/${quizQuestions.length}</h3>
+        <p>Completed on: ${result.date}</p>
+    `;
+}
+
+// Event Listeners
+prevBtn.addEventListener('click', () => {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        showQuestion();
+        updateProgressBar();
+        updateNavigationButtons();
+    }
+});
+
+nextBtn.addEventListener('click', () => {
+    if (currentQuestionIndex < quizQuestions.length - 1) {
+        currentQuestionIndex++;
+        showQuestion();
+        updateProgressBar();
+        updateNavigationButtons();
+    } else {
         showResults();
     }
 });
 
-document.getElementById('prev-btn').addEventListener('click', () => {
-    if(quiz.currentIndex > 0  ){
-        quiz.currentIndex--;
-        renderQuestion();
-        updateProgress();
-    }
-});
+restartBtn.addEventListener('click', initQuiz);
 
-
-//scoring and feedback
-function selectAnswer(selected){
-    const question = quiz.questions[quiz.currentIndex];
-    quiz.answers[quiz.currentIndex] =selected;
-
-    const options = document.querySelectorAll('.option-btn');
-    options.forEach(btn => {
-        btn.classList.remove('correct', 'incorrect', 'selected');
-        if(btn.textContent === selected) btn.classList.add('selected');
-        if(btn.textContent === question.answer) btn.classList.add('correct');
-        else if(btn.textContent === selected && selected !== question.answer)
-            btn.classList.add('incorrect');
-    
-    })
-};
-if(selected=== question.answer) quiz.score++;
-
-
-//form validation with quiz completion
-
-function showResults(){
-    const name = prompt("Enter Name:");
-    if(!/^[a-zA-Z0-9]{2,20}$/.test(name)){
-        alert("Invalid Name!! ");
-        return;
-    }
-
-    const result = {
-        name,
-        score:quiz.score,
-        date: new Date().toISOString()
-    };
-
-    localStorage.setItem('quizResult',JSON.stringify(result));
-    document.getElementById('result').innerHTML=`
-    <h3>${name} scored ${quiz.score}/${quiz.questions.length}</h3>
-    <p>Completed: ${new Date(result.date).toLocaleString()}</p>
-    `;
-    document.getElementById('results-section').style.display = 'block';
-}
-
-//Accessibility
-function manageFocus(){
-    document.querySelector('.option-btn')?.focus();
-}
-
-renderQuestion();
-updateProgress();
+// Initialize the quiz when the page loads
+document.addEventListener('DOMContentLoaded', initQuiz);
