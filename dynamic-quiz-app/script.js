@@ -1,4 +1,3 @@
-// Quiz Questions
 const quizQuestions = [
     {
         question: "What is 2+2?",
@@ -14,6 +13,41 @@ const quizQuestions = [
         question: "What is the largest mammal?",
         options: ["Elephant", "Blue Whale", "Giraffe"],
         correctAnswer: "Blue Whale"
+    },
+    {
+        question: "Which planet is known as the Red Planet?",
+        options: ["Venus", "Mars", "Jupiter"],
+        correctAnswer: "Mars"
+    },
+    {
+        question: "What is the chemical symbol for gold?",
+        options: ["Go", "Gd", "Au"],
+        correctAnswer: "Au"
+    },
+    {
+        question: "Who painted the Mona Lisa?",
+        options: ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso"],
+        correctAnswer: "Leonardo da Vinci"
+    },
+    {
+        question: "What is the largest ocean on Earth?",
+        options: ["Atlantic Ocean", "Indian Ocean", "Pacific Ocean"],
+        correctAnswer: "Pacific Ocean"
+    },
+    {
+        question: "Which language has the most native speakers?",
+        options: ["English", "Spanish", "Mandarin Chinese"],
+        correctAnswer: "Mandarin Chinese"
+    },
+    {
+        question: "What year did World War II end?",
+        options: ["1943", "1945", "1947"],
+        correctAnswer: "1945"
+    },
+    {
+        question: "Which element has the atomic number 1?",
+        options: ["Helium", "Hydrogen", "Oxygen"],
+        correctAnswer: "Hydrogen"
     }
 ];
 
